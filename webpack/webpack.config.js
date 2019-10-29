@@ -5,6 +5,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+let libraryName = 'simple-react-select';
+
 const publicConfig = {
   devtool: 'cheap-module-source-map',
   module: {
@@ -34,7 +36,7 @@ const publicConfig = {
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
+      filename: libraryName + '.css',
       chunkFilename: '[id].[hash].css',
       ignoreOrder: false,
     }),

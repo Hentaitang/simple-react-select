@@ -1,12 +1,13 @@
 const path = require('path');
 const commonConfig = require('./webpack.common.config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const ROOT_PATH = path.join(__dirname, '../');
 
 const devConfig = {
   devtool: 'inline-source-map',
   entry: {
-    app: ['react-hot-loader/patch', '@babel/polyfill', path.join(ROOT_PATH, 'src/index.js')],
+    app: ['react-hot-loader/patch', '@babel/polyfill', path.join(ROOT_PATH, 'src/app.js')],
   },
   output: {
     filename: '[name].[hash].js',
@@ -19,6 +20,12 @@ const devConfig = {
     inline: true,
     clientLogLevel: 'none',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      name: 'index.html',
+      template: path.join(ROOT_PATH, 'src/index.html'),
+    }),
+  ],
   module: {
     rules: [
       {

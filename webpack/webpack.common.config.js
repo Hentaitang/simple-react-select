@@ -1,16 +1,18 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ROOT_PATH = path.join(__dirname, '../')
+const ROOT_PATH = path.join(__dirname, '../');
+
+let libraryName = 'simple-react-select';
 
 commonConfig = {
   entry: {
     app: ['@babel/polyfill', path.join(ROOT_PATH, 'src/index.js')],
   },
   output: {
-    path: path.join(ROOT_PATH, './dist'),
+    path: path.join(ROOT_PATH, './lib'),
     publicPath: '/',
-    filename: '[name].[chunkhash].js',
+    filename: libraryName + '.js',
     chunkFilename: '[name].[chunkhash].js',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -32,12 +34,6 @@ commonConfig = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      name: 'index.html',
-      template: path.join(ROOT_PATH, 'src/index.html'),
-    }),
-  ],
   resolve: {
     alias: {
       router: path.join(ROOT_PATH, 'src/router'),
