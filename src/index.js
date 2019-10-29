@@ -1,2 +1,2 @@
-import Select from './src/select/select';
-export default Select;
+import components from './components';
+export default components;

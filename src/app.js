@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import ReactDom from 'react-dom';
-import Select from './select/select';
+import Select from './components/select/select';
 
 if (module.hot) {
   module.hot.accept();

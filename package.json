@@ -1,11 +1,11 @@
 {
   "name": "simple-react-select",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "react select component",
   "main": "index.js",
   "peerDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -45,7 +45,10 @@
     "test": "jest",
     "dev-build": "webpack --config ./webpack/webpack.dev.config.js",
     "dev": "webpack-dev-server --config ./webpack/webpack.dev.config.js --progress --color --hot",
-    "build": "webpack --config ./webpack/webpack.config.js --progress"
+    "build": "webpack --config ./webpack/webpack.config.js --progress",
+    "clean": "rimraf dist lib",
+    "compile": "npm run clean && npm run build && npm run babel",
+    "babel": "babel ./src/components --out-dir ./lib/components"
   },
   "keywords": [
     "react",

@@ -41,6 +41,9 @@ commonConfig = {
       pages: path.join(ROOT_PATH, 'src/pages'),
     },
   },
+  externals: {
+    React: 'react',
+  },
   optimization: {
     splitChunks: {
       cacheGroups: {
