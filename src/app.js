@@ -1,10 +1,13 @@
 import React, { useEffect, useState, memo } from 'react';
 import ReactDom from 'react-dom';
-import Select from './components/select/select';
+// import Select from './index';
+// import Select from '../dist/index.bundle.js';
+import { Select } from '../lib/simple-react-select.js';
 
-if (module.hot) {
-  module.hot.accept();
-}
+console.log(Select);
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const App = memo(() => {
   let arr = useState(null);

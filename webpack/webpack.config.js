@@ -2,13 +2,13 @@ const commonConfig = require('./webpack.common.config');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let libraryName = 'simple-react-select';
 
 const publicConfig = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-source-map',
   module: {
     rules: [
       {
@@ -44,6 +44,20 @@ const publicConfig = {
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
+  },
+  externals: {
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react',
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom',
+    },
   },
 };
 
