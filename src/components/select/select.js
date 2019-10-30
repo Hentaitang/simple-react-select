@@ -1,9 +1,7 @@
 import React, { memo, useState, useMemo, useEffect, useCallback, useRef } from 'react';
 
 import './svg';
-try {
-  require('./select.scss');
-} catch (e) {}
+import './select.scss';
 
 let myGlobalSetTimeOut = null;
 const debounce = (fn, args) => {

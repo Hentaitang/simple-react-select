@@ -5,7 +5,7 @@ let libraryName = 'simple-react-select';
 
 commonConfig = {
   entry: {
-    app: path.join(ROOT_PATH, 'src/index.js'),
+    app: path.join(ROOT_PATH, 'src/components/index.js'),
   },
   output: {
     path: path.join(ROOT_PATH, './lib'),
@@ -13,7 +13,6 @@ commonConfig = {
     filename: libraryName + '.js',
     chunkFilename: '[name].vendor.js',
     libraryTarget: 'umd',
-    libraryExport: 'default',
   },
   module: {
     rules: [

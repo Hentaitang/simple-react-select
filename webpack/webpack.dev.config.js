@@ -18,6 +18,7 @@ const devConfig = {
     historyApiFallback: true,
     host: '0.0.0.0',
     inline: true,
+    open: true,
     clientLogLevel: 'none',
   },
   plugins: [

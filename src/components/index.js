@@ -1,2 +1,3 @@
 import Select from './select/select.js';
-export default {Select};
+import ScrollBar from './scrollBar/bar.js';
+export { Select, ScrollBar };
