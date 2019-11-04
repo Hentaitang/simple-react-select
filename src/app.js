@@ -23,10 +23,10 @@ const App = memo(() => {
   const stateSelect = useState('');
   const stateIsLoading = useState(false);
   const attribute = {
-    // placeholder: '请选择',
+    placeholder: '请选择',
     select: stateSelect[0],
-    // noOptionsText: '无匹配选项',
-    // loadingText: '加载中',
+    noOptionsText: '无匹配选项',
+    loadingText: '加载中',
     style: { width: '300px', maxHeight: '200px' },
     optionsIsLoading: stateIsLoading[0],
     onSelectChange: val => stateSelect[1](val),

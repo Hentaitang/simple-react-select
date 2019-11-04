@@ -39,7 +39,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
   // input change //
   //////////////////
   useEffect(() => {
-    stateInputWidth[1](fakeInputRef.current.clientWidth ? fakeInputRef.current.clientWidth + 2 : 2);
+    stateInputWidth[1](fakeInputRef.current.clientWidth ? fakeInputRef.current.clientWidth + 16 : 2);
     if (stateSelectList[0] && stateInputValue[0]) {
       const filterArray = [];
       children.forEach(item => {
