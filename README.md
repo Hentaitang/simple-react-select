@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Hentaitang/simple-react-select/badge.svg?branch=master)](https://coveralls.io/github/Hentaitang/simple-react-select?branch=master)
 
 ## [Home Page](https://hentaitang.github.io/simple-react-select/)
-test will finish soooooooooooooooooooooooooooooooooooooooooooooooooon!
+Test will finish soooooooooooooooooooooooooooooooooooooooooooooooooon!  ( •̀ᄇ• ́)ﻭ✧
 
 ## Document
 
@@ -33,9 +33,7 @@ import {Select} from 'simple-react-select'
 import 'simple-react-select/lib/simple-react-select.css'
 ```
 
-###
-
-Make sure you have react@16.8.6 installed.
+#### Make sure you have react@16.8.6 installed.
 
 ```$xslt
 "peerDependencies": {
