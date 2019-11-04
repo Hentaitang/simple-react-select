@@ -5,6 +5,8 @@
 [![Build Status](https://travis-ci.org/Hentaitang/simple-react-select.svg?branch=master)](https://travis-ci.org/Hentaitang/simple-react-select)
 [![Coverage Status](https://coveralls.io/repos/github/Hentaitang/simple-react-select/badge.svg?branch=master)](https://coveralls.io/github/Hentaitang/simple-react-select?branch=master)
 
+## [Home Page](https://hentaitang.github.io/simple-react-select/)
+
 ## Document
 
 [Documentation](https://hentaitang.github.io/Lgm-UI/)

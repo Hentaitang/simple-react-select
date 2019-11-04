@@ -12,3 +12,4 @@
 /coverage
 /jest.config.js
 /.travis.yml
+/example
