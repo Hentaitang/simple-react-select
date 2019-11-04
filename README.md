@@ -3,6 +3,7 @@
 [![npm](https://img.shields.io/npm/v/simple-react-select)](https://www.npmjs.com/package/simple-react-select)
 [![GitHub](https://img.shields.io/github/license/Hentaitang/simple-react-select)](https://github.com/Hentaitang/simple-react-select/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/Hentaitang/simple-react-select.svg?branch=master)](https://travis-ci.org/Hentaitang/simple-react-select)
+[![Coverage Status](https://coveralls.io/repos/github/Hentaitang/simple-react-select/badge.svg?branch=master)](https://coveralls.io/github/Hentaitang/simple-react-select?branch=master)
 
 ## Document
 
@@ -19,15 +20,20 @@ $ npm install simple-react-select --save
 ```
 
 ## How to use
+
 ### Usage
+
 Then you need to import its component and css:
 
 ```$xslt
 import {Select} from 'simple-react-select'
 import 'simple-react-select/lib/simple-react-select.css'
 ```
+
 ###
+
 Make sure you have react@16.8.6 installed.
+
 ```$xslt
 "peerDependencies": {
   "react": "^16.8.6",
@@ -36,6 +42,7 @@ Make sure you have react@16.8.6 installed.
 ```
 
 ## Example
+
 Now, let's place component in your Web APP!
 
 ```$js
