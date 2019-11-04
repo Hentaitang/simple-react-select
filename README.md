@@ -28,7 +28,7 @@ import 'simple-react-select/lib/simple-react-select.css'
 ```
 ###
 Make sure you have react@16.8.6 installed.
-``````$xslt
+```$xslt
 "peerDependencies": {
   "react": "^16.8.6",
   "react-dom": "^16.8.6"
