@@ -33,9 +33,7 @@ import {Select} from 'simple-react-select'
 import 'simple-react-select/lib/simple-react-select.css'
 ```
 
-###
-
-Make sure you have react@16.8.6 installed.
+#### Make sure you have react@16.8.6 installed.
 
 ```$xslt
 "peerDependencies": {
