@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Hentaitang/simple-react-select/badge.svg?branch=master)](https://coveralls.io/github/Hentaitang/simple-react-select?branch=master)
 
 ## [Home Page](https://hentaitang.github.io/simple-react-select/)
-test will finish soooooooooooooooooooooooooooooooooooooooooooooooooon!
+test will finish soooooooooooooooooooooooooooooooooooooooooooooooooon!  ( •̀ᄇ• ́)ﻭ✧
 
 ## Document
 
