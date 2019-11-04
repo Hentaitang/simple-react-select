@@ -1,7 +1,7 @@
 # simple-react-select
 
-[![npm](https://img.shields.io/npm/v/lgm-ui)](https://www.npmjs.com/package/lgm-ui)
-[![GitHub](https://img.shields.io/github/license/Hentaitang/Lgm-UI)](https://github.com/Hentaitang/Lgm-UI/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/simple-react-select)](https://www.npmjs.com/package/simple-react-select)
+[![GitHub](https://img.shields.io/github/license/Hentaitang/simple-react-select)](https://github.com/Hentaitang/simple-react-select/blob/master/LICENSE)
 
 ## Document
 [LgmUI Documentation](https://hentaitang.github.io/Lgm-UI/)
