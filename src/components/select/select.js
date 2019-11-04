@@ -40,18 +40,21 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
   //////////////////
   useEffect(() => {
     stateInputWidth[1](fakeInputRef.current.clientWidth ? fakeInputRef.current.clientWidth + 16 : 2);
-    if (stateSelectList[0] && stateInputValue[0]) {
-      const filterArray = [];
-      children.forEach(item => {
-        item.props.value
-          .toString()
-          .toLowerCase()
-          .indexOf(stateInputValue[0]) >= 0
-          ? filterArray.push(item)
-          : '';
-      });
-      stateSelectList[1](filterArray);
-      stateCurrentItemIndex[1](0);
+    if (stateInputValue[0]) {
+      if (stateSelectList[0]) {
+        const filterArray = [];
+        children.forEach(item => {
+          item.props.value
+            .toString()
+            .toLowerCase()
+            .indexOf(stateInputValue[0]) >= 0
+            ? filterArray.push(item)
+            : '';
+        });
+        stateSelectList[1](filterArray);
+        stateCurrentItemIndex[1](0);
+      }
+      stateIsShowList[1](true);
     } else {
       stateSelectList[1](children);
     }
@@ -116,7 +119,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         stateIsShowList[1](false);
         e.keyCode === 9 && stateIsfocus[1](false);
       } else {
-        stateIsShowList[1](true);
+        [13, 32, 38, 40].indexOf(e.keyCode) !== -1 ? stateIsShowList[1](true) : '';
         stateIsfocus[1](true);
       }
     }
