@@ -1,14 +1,7 @@
 import React, { memo, useState, useMemo, useEffect, useCallback, useRef } from 'react';
-
-import './svg';
+import { SvgIconLoading, SvgIconDrapDown, SvgIconCircleClose } from '../icon/icon.js';
 import './select.scss';
-
-let myGlobalSetTimeOut = null;
-const debounce = (fn, args) => {
-  clearTimeout(myGlobalSetTimeOut);
-  myGlobalSetTimeOut = setTimeout(() => fn(args), 300);
-};
-const component = memo(({ children, placeholder, select, onSelectChange, noOptionsText, optionsIsLoading, loadingText, loadingIcon, style }) => {
+const component = memo(({ children, placeholder, select, onSelectChange, noOptionsText, optionsIsLoading, loadingText, loadingIcon = true, style, searchable, clearable }) => {
   const stateInputValue = useState('');
   const stateInputWidth = useState(2);
   const stateIsShowList = useState(false);
@@ -34,6 +27,9 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
     }
   }, []);
   useEffect(() => {
+    stateCurrentItemIndex[1](0);
+  }, [stateIsShowList[0]]);
+  useEffect(() => {
     document.addEventListener('click', outSideClick);
     return () => {
       document.removeEventListener('click', outSideClick);
@@ -58,25 +54,27 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       stateCurrentItemIndex[1](0);
     } else {
       stateSelectList[1](children);
-      children && children.length
-        ? children.forEach((child, index) => {
-            child.props.value === select ? stateCurrentItemIndex[1](index) : '';
-          })
-        : '';
     }
   }, [stateInputValue[0], children]);
   ///////////////////
   // input keydown //
   ///////////////////
   const handleKeyDown = useCallback(e => {
-    if (stateIsShowList[0] && stateSelectList[0]) {
+    if (stateIsShowList[0]) {
       switch (e.keyCode) {
         case 13:
         case 32:
-          if (stateSelectList[0].length && stateSelectList[0][stateCurrentItemIndex[0]].props.disabled) return;
+          if (stateSelectList[0]) {
+            if (stateSelectList[0].length && stateSelectList[0][stateCurrentItemIndex[0]].props.disabled) return;
+            stateIsShowList[1](false);
+            stateInputValue[1]('');
+            stateSelectList[0].length && onSelectChange(stateSelectList[0][stateCurrentItemIndex[0]].props.value);
+          }
+          break;
+        case 9:
           stateIsShowList[1](false);
+          stateIsfocus[1](false);
           stateInputValue[1]('');
-          stateSelectList[0].length && onSelectChange(stateSelectList[0][stateCurrentItemIndex[0]].props.value);
           break;
         case 27:
           stateIsShowList[1](false);
@@ -84,25 +82,29 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
           break;
         case 38:
           e.preventDefault();
-          if (stateCurrentItemIndex[0] > 0) {
-            const listPosition = listRef.current.getBoundingClientRect();
-            const listWrapPosition = listWrapRef.current.getBoundingClientRect();
-            const difference = listPosition.top - listWrapPosition.top;
-            stateCurrentItemIndex[1](stateCurrentItemIndex[0] - 1);
-            if (difference < listPosition.height) {
-              listWrapRef.current.scrollBy(0, -(listPosition.height - difference + 6));
+          if (stateSelectList[0]) {
+            if (stateCurrentItemIndex[0] > 0) {
+              const listPosition = listRef.current.getBoundingClientRect();
+              const listWrapPosition = listWrapRef.current.getBoundingClientRect();
+              const difference = listPosition.top - listWrapPosition.top;
+              stateCurrentItemIndex[1](stateCurrentItemIndex[0] - 1);
+              if (difference < listPosition.height) {
+                listWrapRef.current.scrollBy(0, -(listPosition.height - difference + 6));
+              }
             }
           }
           break;
         case 40:
           e.preventDefault();
-          if (stateCurrentItemIndex[0] < stateSelectList[0].length - 1) {
-            const listPosition = listRef.current.getBoundingClientRect();
-            const listWrapPosition = listWrapRef.current.getBoundingClientRect();
-            const difference = listWrapPosition.bottom - listPosition.bottom;
-            stateCurrentItemIndex[1](stateCurrentItemIndex[0] + 1);
-            if (difference < listPosition.height) {
-              listWrapRef.current.scrollBy(0, listPosition.height - difference + 6);
+          if (stateSelectList[0]) {
+            if (stateCurrentItemIndex[0] < stateSelectList[0].length - 1) {
+              const listPosition = listRef.current.getBoundingClientRect();
+              const listWrapPosition = listWrapRef.current.getBoundingClientRect();
+              const difference = listWrapPosition.bottom - listPosition.bottom;
+              stateCurrentItemIndex[1](stateCurrentItemIndex[0] + 1);
+              if (difference < listPosition.height) {
+                listWrapRef.current.scrollBy(0, listPosition.height - difference + 6);
+              }
             }
           }
           break;
@@ -110,7 +112,10 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         // console.log(1);
       }
     } else {
-      if (e.keyCode !== 27) {
+      if (e.keyCode === 9 || e.keyCode === 27) {
+        stateIsShowList[1](false);
+        e.keyCode === 9 && stateIsfocus[1](false);
+      } else {
         stateIsShowList[1](true);
         stateIsfocus[1](true);
       }
@@ -125,9 +130,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       <li className={'loadingItem'}>
         {loadingIcon ? (
           <div className={'loadingIcon'}>
-            <svg aria-hidden="true" width="14px" height="14px">
-              <use xlinkHref="#icon-loading"></use>
-            </svg>
+            <SvgIconLoading width="14px" height="14px" />
           </div>
         ) : (
           ''
@@ -166,6 +169,41 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       listHtml = <li className={'noItem'}>{noOptionsText ? noOptionsText : 'No options'}</li>;
     }
   }
+  ////////////////
+  // clear html //
+  ////////////////
+  let clearHtml;
+  if (clearable) {
+    if (searchable) {
+      clearHtml = stateInputValue[0] ? (
+        <SvgIconCircleClose
+          width="16px"
+          height="16px"
+          className={'clearAllIcon'}
+          onMouseUp={() => {
+            inputRef.current.focus();
+            stateInputValue[1]('');
+          }}
+        />
+      ) : (
+        ''
+      );
+    } else {
+      clearHtml = select ? (
+        <SvgIconCircleClose
+          width="16px"
+          height="16px"
+          className={'clearAllIcon'}
+          onMouseUp={() => {
+            inputRef.current.focus();
+            onSelectChange('');
+          }}
+        />
+      ) : (
+        ''
+      );
+    }
+  }
   return (
     <div className={'selectWrapper'} ref={selectRef} style={{ width: style && style.width ? style.width : '' }}>
       <div
@@ -178,6 +216,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         }}
       >
         <input
+          readOnly={!searchable}
           className={'myInput'}
           type="text"
           value={stateInputValue[0]}
@@ -192,34 +231,18 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         </div>
         {!stateInputValue[0] && select ? <div className={'selectValue'}>{select}</div> : ''}
         {!stateInputValue[0] && !select ? <div className={'placeholder'}>{placeholder ? placeholder : 'Select...'}</div> : ''}
-        {stateInputValue[0] && (
-          <svg
-            aria-hidden="true"
-            width="16px"
-            height="16px"
-            className={'clearAllIcon'}
-            onMouseUp={() => {
-              inputRef.current.focus();
-              stateInputValue[1]('');
-            }}
-          >
-            <use xlinkHref="#icon-close-circle"></use>
-          </svg>
-        )}
-        <svg
-          aria-hidden="true"
+        {clearHtml}
+        <SvgIconDrapDown
           width="16px"
-          height="16px"
           className={'dropdownIcon'}
+          height="16px"
           onClick={e => {
             e.stopPropagation();
             inputRef.current.focus();
             stateInputValue[1]('');
             stateIsShowList[1](!stateIsShowList[0]);
           }}
-        >
-          <use xlinkHref="#icon-down"></use>
-        </svg>
+        />
       </div>
       {stateIsShowList[0] ? (
         <div className={'selectListWrapper'} ref={listWrapRef} style={{ maxHeight: style && style.maxHeight ? style.maxHeight : '' }}>

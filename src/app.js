@@ -1,41 +1,51 @@
 import React, { useEffect, useState, memo } from 'react';
 import ReactDom from 'react-dom';
-import {Select} from './components/index';
-
-console.log(Select);
+import { Select } from './components/index';
 if (module.hot) {
   module.hot.accept();
 }
+
+const optionList = [
+  { value: 'Ocean', color: '#00B8D9' },
+  { value: 'Blue', color: '#0052CC', isDisabled: true },
+  { value: 'Purple', color: '#5243AA' },
+  { value: 'Red', color: '#FF5630' },
+  { value: 'Orange', color: '#FF8B00' },
+  { value: 'Yellow', color: '#FFC400' },
+  { value: 'Green', color: '#36B37E' },
+  { value: 'Forest', color: '#00875A' },
+  { value: 'Slate', color: '#253858' },
+  { value: 'Silver', color: '#666666' },
+];
 
 const App = memo(() => {
   let arr = useState(null);
   const stateSelect = useState('');
   const stateIsLoading = useState(false);
   const attribute = {
-    placeholder: '请选择',
+    // placeholder: '请选择',
     select: stateSelect[0],
-    noOptionsText: '无匹配选项',
-    loadingText: '加载中',
-    loadingIcon: true,
+    // noOptionsText: '无匹配选项',
+    // loadingText: '加载中',
     style: { width: '300px', maxHeight: '200px' },
     optionsIsLoading: stateIsLoading[0],
     onSelectChange: val => stateSelect[1](val),
+    searchable: true,
+    clearable: true,
+  };
+  const attribute2 = {
+    placeholder: 'pleaseSelct',
+    select: stateSelect[0],
+    noOptionsText: 'no Options',
+    loadingText: 'loading',
+    style: { width: '500px', maxHeight: '300px' },
+    onSelectChange: val => stateSelect[1](val),
+    clearable: true,
   };
   useEffect(() => {
     stateIsLoading[1](true);
     setTimeout(() => {
-      arr[1]([
-        { value: 'Ocean', color: '#00B8D9' },
-        { value: 'Blue', color: '#0052CC', isDisabled: true },
-        { value: 'Purple', color: '#5243AA' },
-        { value: 'Red', color: '#FF5630' },
-        { value: 'Orange', color: '#FF8B00' },
-        { value: 'Yellow', color: '#FFC400' },
-        { value: 'Green', color: '#36B37E' },
-        { value: 'Forest', color: '#00875A' },
-        { value: 'Slate', color: '#253858' },
-        { value: 'Silver', color: '#666666' },
-      ]);
+      arr[1](optionList);
       stateSelect[1]('Slate');
       stateIsLoading[1](false);
     }, 3000);
@@ -51,6 +61,15 @@ const App = memo(() => {
               </div>
             );
           })}
+      </Select>
+      <Select {...attribute2} optionList={optionList}>
+        {optionList.map(item => {
+          return (
+            <div key={item.value} value={item.value} disabled={item.isDisabled} color={item.color}>
+              {item.value}
+            </div>
+          );
+        })}
       </Select>
     </div>
   );
