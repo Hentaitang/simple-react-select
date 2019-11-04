@@ -7,7 +7,7 @@ const ROOT_PATH = path.join(__dirname, '../');
 const devConfig = {
   devtool: 'inline-source-map',
   entry: {
-    app: ['react-hot-loader/patch', '@babel/polyfill', path.join(ROOT_PATH, 'src/app.js')],
+    app: ['react-hot-loader/patch', '@babel/polyfill', path.join(ROOT_PATH, 'example/app.js')],
   },
   output: {
     filename: '[name].[hash].js',
@@ -24,13 +24,13 @@ const devConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       name: 'index.html',
-      template: path.join(ROOT_PATH, 'src/index.html'),
+      template: path.join(ROOT_PATH, 'example/index.html'),
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.(sa|sc|c)ss$/,
         exclude: /(node_modules|bower_components)/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },

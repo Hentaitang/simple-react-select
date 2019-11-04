@@ -9,3 +9,6 @@
 /*.html
 /.github
 /docs
+/coverage
+/jest.config.js
+/.travis.yml

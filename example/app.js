@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import ReactDom from 'react-dom';
-import { Select } from './components/index';
+import { Select } from 'components/index';
 if (module.hot) {
   module.hot.accept();
 }
@@ -19,8 +19,9 @@ const optionList = [
 ];
 
 const App = memo(() => {
-  let arr = useState(null);
+  const options = useState(null);
   const stateSelect = useState('');
+  const stateSelect2 = useState('');
   const stateIsLoading = useState(false);
   const attribute = {
     placeholder: '请选择',
@@ -31,37 +32,24 @@ const App = memo(() => {
     optionsIsLoading: stateIsLoading[0],
     onSelectChange: val => stateSelect[1](val),
     searchable: true,
-    clearable: true,
+    clearable: true
   };
   const attribute2 = {
-    placeholder: 'pleaseSelct',
-    select: stateSelect[0],
-    noOptionsText: 'no Options',
-    loadingText: 'loading',
-    style: { width: '500px', maxHeight: '300px' },
-    onSelectChange: val => stateSelect[1](val),
-    clearable: true,
+    select: stateSelect2[0],
+    style: { width: '300px', maxHeight: '200px' },
+    onSelectChange: val => stateSelect2[1](val),
   };
   useEffect(() => {
     stateIsLoading[1](true);
     setTimeout(() => {
-      arr[1](optionList);
+      options[1](optionList);
       stateSelect[1]('Slate');
       stateIsLoading[1](false);
     }, 3000);
   }, []);
   return (
     <div>
-      <Select {...attribute}>
-        {arr[0] &&
-          arr[0].map(item => {
-            return (
-              <div key={item.value} value={item.value} disabled={item.isDisabled} color={item.color}>
-                {item.value}
-              </div>
-            );
-          })}
-      </Select>
+      <h1>Simple Select</h1>
       <Select {...attribute2} optionList={optionList}>
         {optionList.map(item => {
           return (
@@ -70,6 +58,20 @@ const App = memo(() => {
             </div>
           );
         })}
+      </Select>
+      <br />
+      <br />
+      <br />
+      <h1>Searchable Select</h1>
+      <Select {...attribute}>
+        {options[0] &&
+          options[0].map(item => {
+            return (
+              <div key={item.value} value={item.value} disabled={item.isDisabled} color={item.color}>
+                {item.value}
+              </div>
+            );
+          })}
       </Select>
     </div>
   );
