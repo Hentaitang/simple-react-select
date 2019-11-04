@@ -13,6 +13,12 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
   const stateCurrentItemIndex = useState(0);
   const listWrapRef = useRef(null);
   const listRef = useRef(null);
+  const getIndexof = useCallback((value, string) => {
+    return value
+      .toString()
+      .toLowerCase()
+      .indexOf(string);
+  }, []);
   useEffect(() => {
     stateSelectList[1](children);
   }, [children]);
@@ -44,12 +50,10 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       if (stateSelectList[0]) {
         const filterArray = [];
         children.forEach(item => {
-          item.props.value
-            .toString()
-            .toLowerCase()
-            .indexOf(stateInputValue[0]) >= 0
-            ? filterArray.push(item)
-            : '';
+          getIndexof(item.props.value, stateInputValue[0]) >= 0 ? filterArray.push(item) : '';
+        });
+        filterArray.sort((prev, cur) => {
+          return getIndexof(prev.props.value, stateInputValue[0]) - getIndexof(cur.props.value, stateInputValue[0]);
         });
         stateSelectList[1](filterArray);
         stateCurrentItemIndex[1](0);
