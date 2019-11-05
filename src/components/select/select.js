@@ -1,7 +1,7 @@
-import React, { memo, useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { memo, useState, useEffect, useCallback, useRef } from 'react';
 import { SvgIconLoading, SvgIconDrapDown, SvgIconCircleClose } from '../icon/icon.js';
 import './select.scss';
-const component = memo(({ children, placeholder, select, onSelectChange, noOptionsText, optionsIsLoading, loadingText, loadingIcon = true, style, searchable, clearable }) => {
+const component = memo(({ children, placeholder, select, onSelectChange, noOptionsText, optionsIsLoading, loadingText, isLoadingIcon = true, style, isSearchable, isClearable }) => {
   const stateInputValue = useState('');
   const stateInputWidth = useState(2);
   const stateIsShowList = useState(false);
@@ -135,8 +135,8 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
   if (optionsIsLoading) {
     listHtml = (
       <li className={'loadingItem'}>
-        {loadingIcon ? (
-          <div className={'loadingIcon'}>
+        {isLoadingIcon ? (
+          <div className={'isLoadingIcon'}>
             <SvgIconLoading width="14px" height="14px" />
           </div>
         ) : (
@@ -180,8 +180,8 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
   // clear html //
   ////////////////
   let clearHtml;
-  if (clearable) {
-    if (searchable) {
+  if (isClearable) {
+    if (isSearchable) {
       clearHtml = stateInputValue[0] ? (
         <SvgIconCircleClose
           width="16px"
@@ -223,7 +223,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         }}
       >
         <input
-          readOnly={!searchable}
+          readOnly={!isSearchable}
           className={'myInput'}
           type="text"
           value={stateInputValue[0]}

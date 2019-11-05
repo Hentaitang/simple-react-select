@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import ReactDom from 'react-dom';
-import { Select } from 'components/index';
+import Select from 'components/index';
 if (module.hot) {
   module.hot.accept();
 }
@@ -31,8 +31,8 @@ const App = memo(() => {
     style: { width: '300px', maxHeight: '200px' },
     optionsIsLoading: stateIsLoading[0],
     onSelectChange: val => stateSelect[1](val),
-    searchable: true,
-    clearable: true
+    isSearchable: true,
+    isClearable: true
   };
   const attribute2 = {
     select: stateSelect2[0],

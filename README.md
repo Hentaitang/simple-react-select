@@ -8,11 +8,7 @@
 ## [Home Page](https://hentaitang.github.io/simple-react-select/)
 Test will finish soooooooooooooooooooooooooooooooooooooooooooooooooon!  ( •̀ᄇ• ́)ﻭ✧
 
-## Document
-
-[Documentation](https://hentaitang.github.io/Lgm-UI/)
-
-## install
+## Install
 
 ```$xslt
 $ yarn add simple-react-select
@@ -48,7 +44,7 @@ Now, let's place component in your Web APP!
 
 ```$js
 import React, {memo, useState} from 'react';
-import {Select} from 'simple-react-select';
+import Select from 'simple-react-select';
 import 'simple-react-select/lib/simple-react-select.css'
 
 const App = memo(() => {
@@ -86,6 +82,21 @@ const App = memo(() => {
 ```
 
 If you wanna explore more usages, here's a playground on [CodeSandBox.io](https://codesandbox.io/s/wispy-river-5dv7b).
+
+## Attribute
+
+  | Props | Description | Type | Opt | Default |
+  | ---- |:----:|:----:|:----:|:----:|
+  | placeholder | change the text displayed when no option is selected | string | — |  —  |
+  | select | control the current value | string | — |  — |
+  | noOptionsText | Text to display when there are no options | string | — | — |
+  | loadingText | Text to display when loading | string |  —   |—|
+  | isLoadingIcon | need loading icon or not | boolean |  —   |true|
+  | style | input width && optionList maxHeight | object |   {width: '300px' , maxHeight: '300px'}    |   {}    |
+  | optionsIsLoading | loading control | boolean |  —   |   false    |
+  | onSelectChange | subscribe to change events | function |  —   | (res) => {} |
+  | isSearchable | allow the user to search for matching options | boolean |  —   |   false    |
+  | isClearable | clear select or input value | boolean |  —   |   false    |
 
 ## LICENSE
 
