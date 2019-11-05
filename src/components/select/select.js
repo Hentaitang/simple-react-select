@@ -136,7 +136,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
     listHtml = (
       <li className={'loadingItem'}>
         {isLoadingIcon ? (
-          <div className={'isLoadingIcon'}>
+          <div className={'loadingIcon'}>
             <SvgIconLoading width="14px" height="14px" />
           </div>
         ) : (

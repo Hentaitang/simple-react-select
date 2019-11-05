@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-export const SvgIconLoading = memo(({ className = {}, attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
+export const SvgIconLoading = memo(({ className = '', attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
   return (
     <svg {...attributes} className={className} width={width} height={height} style={style} viewBox="0 0 1024 1024" onClick={onClick} onMouseUp={onMouseUp}>
       <path
@@ -12,7 +12,7 @@ export const SvgIconLoading = memo(({ className = {}, attributes = {}, style = {
   );
 });
 
-export const SvgIconDrapDown = memo(({ className = {}, attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
+export const SvgIconDrapDown = memo(({ className = '', attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
   return (
     <svg {...attributes} className={className} width={width} height={height} style={style} viewBox="0 0 1024 1024" onClick={onClick} onMouseUp={onMouseUp}>
       <path
@@ -24,7 +24,7 @@ export const SvgIconDrapDown = memo(({ className = {}, attributes = {}, style = 
   );
 });
 
-export const SvgIconCircleClose = memo(({ className = {}, attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
+export const SvgIconCircleClose = memo(({ className = '', attributes = {}, style = {}, width, height, fills = [], onClick, onMouseUp }) => {
   return (
     <svg {...attributes} className={className} width={width} height={height} style={style} viewBox="0 0 1024 1024" onClick={onClick} onMouseUp={onMouseUp}>
       <path
