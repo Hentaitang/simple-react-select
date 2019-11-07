@@ -1,7 +1,8 @@
 import React, { memo, useState, useEffect, useCallback, useRef } from 'react';
 import { SvgIconLoading, SvgIconDrapDown, SvgIconCircleClose } from '../icon/icon.js';
 import './select.scss';
-const component = memo(({ children, placeholder, select, onSelectChange, noOptionsText, optionsIsLoading, loadingText, isLoadingIcon = true, style, isSearchable, isClearable }) => {
+const component = memo(({ children, placeholder, select = '', onSelectChange, noOptionsText, optionsIsLoading, loadingText, isLoadingIcon = true, style, isSearchable, isClearable }) => {
+  const stateSelect = useState(select);
   const stateInputValue = useState('');
   const stateInputWidth = useState(2);
   const stateIsShowList = useState(false);
@@ -41,6 +42,12 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       document.removeEventListener('click', outSideClick);
     };
   }, []);
+  useEffect(() => {
+    stateSelect[1](select);
+  }, [select]);
+  useEffect(() => {
+    onSelectChange && onSelectChange(stateSelect[0]);
+  }, [stateSelect[0]]);
   //////////////////
   // input change //
   //////////////////
@@ -75,7 +82,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
             if (stateSelectList[0].length && stateSelectList[0][stateCurrentItemIndex[0]].props.disabled) return;
             stateIsShowList[1](false);
             stateInputValue[1]('');
-            stateSelectList[0].length && onSelectChange(stateSelectList[0][stateCurrentItemIndex[0]].props.value);
+            stateSelectList[0].length && stateSelect[1](stateSelectList[0][stateCurrentItemIndex[0]].props.value);
           }
           break;
         case 9:
@@ -152,7 +159,7 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
           <li
             style={{
               backgroundColor: stateCurrentItemIndex[0] === index ? '#f5f7fa' : '',
-              color: child.props.disabled ? '#d9d9d9' : select === child.props.value ? '#409eff' : '',
+              color: child.props.disabled ? '#d9d9d9' : stateSelect[0] === child.props.value ? '#409eff' : '',
               cursor: child.props.disabled ? 'not-allowed' : '',
             }}
             ref={ref => {
@@ -161,10 +168,11 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
             className={'selectListItem'}
             key={child.key}
             onClick={() => {
+              // stateIsfocus[1](true);
               if (child.props.disabled) return;
               stateIsShowList[1](false);
               stateInputValue[1]('');
-              onSelectChange(child.props.value);
+              stateSelect[1](child.props.value);
             }}
             onMouseEnter={() => stateCurrentItemIndex[1](index)}
           >
@@ -176,46 +184,11 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
       listHtml = <li className={'noItem'}>{noOptionsText ? noOptionsText : 'No options'}</li>;
     }
   }
-  ////////////////
-  // clear html //
-  ////////////////
-  let clearHtml;
-  if (isClearable) {
-    if (isSearchable) {
-      clearHtml = stateInputValue[0] ? (
-        <SvgIconCircleClose
-          width="16px"
-          height="16px"
-          className={'clearAllIcon'}
-          onMouseUp={() => {
-            inputRef.current.focus();
-            stateInputValue[1]('');
-          }}
-        />
-      ) : (
-        ''
-      );
-    } else {
-      clearHtml = select ? (
-        <SvgIconCircleClose
-          width="16px"
-          height="16px"
-          className={'clearAllIcon'}
-          onMouseUp={() => {
-            inputRef.current.focus();
-            onSelectChange('');
-          }}
-        />
-      ) : (
-        ''
-      );
-    }
-  }
   return (
     <div className={'selectWrapper'} ref={selectRef} style={{ width: style && style.width ? style.width : '' }}>
       <div
         className={`inputWrapper ${stateIsfocus[0] ? 'focus' : ''}`}
-        style={{ paddingRight: stateInputValue[0] ? '60px' : '' }}
+        style={{ paddingRight: stateInputValue[0] && isClearable ? '60px' : '' }}
         onClick={() => {
           stateIsShowList[1](true);
           stateIsfocus[1](true);
@@ -236,9 +209,24 @@ const component = memo(({ children, placeholder, select, onSelectChange, noOptio
         <div ref={fakeInputRef} className={'fakeInput'}>
           {stateInputValue[0]}
         </div>
-        {!stateInputValue[0] && select ? <div className={'selectValue'}>{select}</div> : ''}
-        {!stateInputValue[0] && !select ? <div className={'placeholder'}>{placeholder ? placeholder : 'Select...'}</div> : ''}
-        {clearHtml}
+        {!stateInputValue[0] && stateSelect[0] ? <div className={'selectValue'}>{stateSelect[0]}</div> : ''}
+        {!stateInputValue[0] && !stateSelect[0] ? <div className={'placeholder'}>{placeholder ? placeholder : 'Select...'}</div> : ''}
+        {isClearable ? (
+          <SvgIconCircleClose
+            width="16px"
+            height="16px"
+            className={'clearAllIcon'}
+            onClick={e => {
+              e.stopPropagation();
+              inputRef.current.focus();
+              stateInputValue[1]('');
+              !isSearchable && stateSelect[1]('');
+            }}
+            style={{ visibility: (isSearchable ? stateInputValue[0] : stateSelect[0]) ? '' : 'hidden' }}
+          />
+        ) : (
+          ''
+        )}
         <SvgIconDrapDown
           width="16px"
           className={'dropdownIcon'}

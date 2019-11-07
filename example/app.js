@@ -32,12 +32,13 @@ const App = memo(() => {
     optionsIsLoading: stateIsLoading[0],
     onSelectChange: val => stateSelect[1](val),
     isSearchable: true,
-    isClearable: true
+    isClearable: true,
   };
   const attribute2 = {
     select: stateSelect2[0],
     style: { width: '300px', maxHeight: '200px' },
     onSelectChange: val => stateSelect2[1](val),
+    isClearable: true,
   };
   useEffect(() => {
     stateIsLoading[1](true);
