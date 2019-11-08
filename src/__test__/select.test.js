@@ -2,6 +2,8 @@ import React from 'react';
 import { mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Select from '../components/select/select.js';
+import ReactDOM from 'react-dom';
+import { act, Simulate } from 'react-dom/test-utils';
 configure({ adapter: new Adapter() });
 
 const optionList = [
@@ -66,22 +68,32 @@ describe('Select Component', () => {
       ).toHaveProperty('visibility', 'hidden');
       expect(fakeFn).toHaveBeenCalled();
     });
-    it('accept children', () => {
+    it('accept children & style', () => {
       const wrapper = mount(
-        <Select>
+        <Select style={{ width: '500px', maxHeight: '200px' }}>
           {optionList.map(item => {
             return (
-              <div key={item.value} value={item.value} disabled={item.isDisabled} color={item.color}>
+              <div key={item.value} value={item.value} disabled={item.isDisabled}>
                 {item.value}
               </div>
             );
           })}
         </Select>,
       );
+      const selectWrapper = wrapper.find('.selectWrapper').at(0);
+      expect(selectWrapper.prop('style')).toHaveProperty('width', '500px');
       const drapDown = wrapper.find('.dropdownIcon').at(0);
       drapDown.simulate('click');
       const selectListWrapper = wrapper.find('.selectListWrapper').at(0);
-      expect(selectListWrapper.find('.selectList').children().length).toEqual(10)
+      expect(selectListWrapper.prop('style')).toHaveProperty('maxHeight', '200px');
+      expect(selectListWrapper.find('.selectList').children().length).toEqual(10);
+      expect(
+        selectListWrapper
+          .find('.selectList')
+          .children()
+          .at(1)
+          .prop('style'),
+      ).toHaveProperty('cursor', 'not-allowed');
     });
   });
   describe('action', () => {
@@ -110,6 +122,89 @@ describe('Select Component', () => {
           .at(0)
           .exists(),
       ).toEqual(false);
+    });
+    it('click options', () => {
+      const wrapper = mount(
+        <Select>
+          {optionList.map(item => {
+            return (
+              <div key={item.value} value={item.value} disabled={item.isDisabled}>
+                {item.value}
+              </div>
+            );
+          })}
+        </Select>,
+      );
+      const selectValue = wrapper.find('.selectValue').at(0);
+      expect(selectValue.exists()).toEqual(false);
+      const drapDown = wrapper.find('.dropdownIcon').at(0);
+      drapDown.simulate('click');
+      const selectListWrapper = wrapper.find('.selectListWrapper').at(0);
+      const defaultItem = selectListWrapper
+        .find('.selectList')
+        .children()
+        .at(0);
+      expect(defaultItem.prop('style')).toHaveProperty('backgroundColor', '#f5f7fa');
+      const selectItem = selectListWrapper
+        .find('.selectList')
+        .children()
+        .at(2);
+      selectItem.simulate('click');
+      expect(
+        wrapper
+          .find('.selectValue')
+          .at(0)
+          .exists(),
+      ).toEqual(true);
+      expect(
+        wrapper
+          .find('.selectValue')
+          .at(0)
+          .text(),
+      ).toEqual('Purple');
+      expect(
+        wrapper
+          .find('.selectListWrapper')
+          .at(0)
+          .exists(),
+      ).toEqual(false);
+      drapDown.simulate('click');
+      const disabledItem = selectListWrapper
+        .find('.selectList')
+        .children()
+        .at(1);
+      disabledItem.simulate('click');
+      expect(
+        wrapper
+          .find('.selectValue')
+          .at(0)
+          .exists(),
+      ).toEqual(true);
+      expect(
+        wrapper
+          .find('.selectValue')
+          .at(0)
+          .text(),
+      ).toEqual('Purple');
+      expect(
+        wrapper
+          .find('.selectListWrapper')
+          .at(0)
+          .exists(),
+      ).toEqual(true);
+    });
+    it('click outside', () => {
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+      ReactDOM.render(<Select />, div);
+      const input = document.querySelector('.inputWrapper');
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.click(input);
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
+      act(() => {
+        document.dispatchEvent(new Event('click'));
+      });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
     });
   });
 });

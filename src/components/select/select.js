@@ -168,7 +168,6 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
             className={'selectListItem'}
             key={child.key}
             onClick={() => {
-              // stateIsfocus[1](true);
               if (child.props.disabled) return;
               stateIsShowList[1](false);
               stateInputValue[1]('');
