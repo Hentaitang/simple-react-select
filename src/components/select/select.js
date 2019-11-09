@@ -102,8 +102,8 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
               const listWrapPosition = listWrapRef.current.getBoundingClientRect();
               const difference = listPosition.top - listWrapPosition.top;
               stateCurrentItemIndex[1](stateCurrentItemIndex[0] - 1);
-              if (difference < listPosition.height) {
-                listWrapRef.current.scrollBy(0, -(listPosition.height - difference + 6));
+              if (difference <= listPosition.height) {
+                listWrapRef.current.scrollBy && listWrapRef.current.scrollBy(0, -(listPosition.height - difference + 6));
               }
             }
           }
@@ -116,23 +116,16 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
               const listWrapPosition = listWrapRef.current.getBoundingClientRect();
               const difference = listWrapPosition.bottom - listPosition.bottom;
               stateCurrentItemIndex[1](stateCurrentItemIndex[0] + 1);
-              if (difference < listPosition.height) {
-                listWrapRef.current.scrollBy(0, listPosition.height - difference + 6);
+              if (difference <= listPosition.height) {
+                listWrapRef.current.scrollBy && listWrapRef.current.scrollBy(0, listPosition.height - difference + 6);
               }
             }
           }
           break;
-        default:
-        // console.log(1);
       }
     } else {
-      if (e.keyCode === 9 || e.keyCode === 27) {
-        stateIsShowList[1](false);
-        e.keyCode === 9 && stateIsfocus[1](false);
-      } else {
-        [13, 32, 38, 40].indexOf(e.keyCode) !== -1 ? stateIsShowList[1](true) : '';
-        stateIsfocus[1](true);
-      }
+      [13, 32, 38, 40].indexOf(e.keyCode) !== -1 ? stateIsShowList[1](true) : '';
+      stateIsfocus[1](e.keyCode === 9 ? false : true);
     }
   });
   ///////////////
@@ -201,7 +194,7 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
           value={stateInputValue[0]}
           ref={inputRef}
           style={{ width: `${stateInputWidth[0]}px` }}
-          onChange={e => stateInputValue[1](e.currentTarget.value.trim())}
+          onChange={e => stateInputValue[1](e.target.value.trim())}
           onFocus={() => stateIsfocus[1](true)}
           onKeyDown={e => handleKeyDown(e)}
         />

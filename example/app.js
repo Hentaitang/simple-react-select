@@ -51,7 +51,7 @@ const App = memo(() => {
   return (
     <div>
       <h1>Simple Select</h1>
-      <Select {...attribute2} optionList={optionList}>
+      <Select {...attribute2}>
         {optionList.map(item => {
           return (
             <div key={item.value} value={item.value} disabled={item.isDisabled} color={item.color}>

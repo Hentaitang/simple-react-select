@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Select from '../components/select/select.js';
@@ -205,6 +205,91 @@ describe('Select Component', () => {
         document.dispatchEvent(new Event('click'));
       });
       expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      document.body.removeChild(div);
+    });
+    it('mouseEnter options', () => {
+      const wrapper = mount(
+        <Select>
+          {optionList.map(item => {
+            return (
+              <div key={item.value} value={item.value} disabled={item.isDisabled}>
+                {item.value}
+              </div>
+            );
+          })}
+        </Select>,
+      );
+      const drapDown = wrapper.find('.dropdownIcon').at(0);
+      drapDown.simulate('click');
+      const selectItem = wrapper
+        .find('.selectList')
+        .children()
+        .at(3);
+      selectItem.simulate('mouseEnter');
+      expect(
+        wrapper
+          .find('.selectList')
+          .children()
+          .at(3)
+          .prop('style'),
+      ).toHaveProperty('backgroundColor', '#f5f7fa');
+    });
+    it('keydown', () => {
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+      ReactDOM.render(
+        <Select style={{ width: '300px', maxHeight: '100px' }}>
+          {optionList.map(item => {
+            return (
+              <div key={item.value} value={item.value}>
+                {item.value}
+              </div>
+            );
+          })}
+        </Select>,
+        div,
+      );
+      const input = document.querySelector('.myInput');
+      Simulate.keyDown(input, { keyCode: 40 });
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
+      Simulate.keyDown(input, { keyCode: 9 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.keyDown(input, { keyCode: 38 });
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
+      Simulate.keyDown(input, { keyCode: 27 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.keyDown(input, { keyCode: 32 });
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
+      Simulate.keyDown(input, { keyCode: 13 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.keyDown(input, { keyCode: 13 });
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
+      expect(document.querySelectorAll('li')[0].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 40 });
+      Simulate.keyDown(input, { keyCode: 40 });
+      Simulate.keyDown(input, { keyCode: 40 });
+      expect(document.querySelectorAll('li')[2].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 38 });
+      expect(document.querySelectorAll('li')[1].style['background-color']).not.toEqual('');
+      document.body.removeChild(div);
+    });
+    it('change input value', () => {
+      const wrapper = mount(
+        <Select isSearchable={true}>
+          {optionList.map(item => {
+            return (
+              <div key={item.value} value={item.value}>
+                {item.value}
+              </div>
+            );
+          })}
+        </Select>,
+      );
+      const input = wrapper.find('input').at(0);
+      input.simulate('change', {target: {value: 'r'}})
+      const list = wrapper.find('.selectListWrapper').at(0);
+      expect(list.exists()).toEqual(true);
+      expect(wrapper.find('li').children().at(0).text()).toEqual('Red');
     });
   });
 });
