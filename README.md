@@ -25,7 +25,7 @@ $ npm install simple-react-select --save
 Then you need to import its component and css:
 
 ```$xslt
-import {Select} from 'simple-react-select'
+import Select from 'simple-react-select'
 import 'simple-react-select/lib/simple-react-select.css'
 ```
 
