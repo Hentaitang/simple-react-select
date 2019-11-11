@@ -11,12 +11,6 @@ const optionList = [
   { value: 'Blue', color: '#0052CC', isDisabled: true },
   { value: 'Purple', color: '#5243AA' },
   { value: 'Red', color: '#FF5630' },
-  { value: 'Orange', color: '#FF8B00' },
-  { value: 'Yellow', color: '#FFC400' },
-  { value: 'Green', color: '#36B37E' },
-  { value: 'Forest', color: '#00875A' },
-  { value: 'Slate', color: '#253858' },
-  { value: 'Silver', color: '#666666' },
 ];
 
 describe('Select Component', () => {
@@ -33,8 +27,10 @@ describe('Select Component', () => {
       expect(noItem.exists()).toEqual(true);
       expect(placeholder.text()).toEqual('123');
       expect(noItem.text()).toEqual('456');
+      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 40 })
+      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 38 })
     });
-    it('accept optionsIsLoading && loadingText & loadingIcon', () => {
+    it('accept optionsIsLoading && loadingText & no loadingIcon', () => {
       const wrapper = mount(<Select optionsIsLoading={true} loadingText="loading" isLoadingIcon={false} />);
       const input = wrapper.find('.inputWrapper').at(0);
       input.simulate('click');
@@ -43,6 +39,15 @@ describe('Select Component', () => {
       expect(loadingItem.exists()).toEqual(true);
       expect(loadingItem.text()).toEqual('loading');
       expect(loadingIcon.exists()).toEqual(false);
+    });
+    it('accept optionsIsLoading && no loadingText & loadingIcon', () => {
+      const wrapper = mount(<Select optionsIsLoading={true} isLoadingIcon={true} />);
+      const input = wrapper.find('.inputWrapper').at(0);
+      input.simulate('click');
+      const loadingItem = wrapper.find('.loadingItem').at(0);
+      const loadingIcon = wrapper.find('.loadingIcon').at(0);
+      expect(loadingItem.exists()).toEqual(true);
+      expect(loadingIcon.exists()).toEqual(true);
     });
     it('accept select && onSelectChange && isClearable', () => {
       const fakeFn = jest.fn();
@@ -86,7 +91,7 @@ describe('Select Component', () => {
       drapDown.simulate('click');
       const selectListWrapper = wrapper.find('.selectListWrapper').at(0);
       expect(selectListWrapper.prop('style')).toHaveProperty('maxHeight', '200px');
-      expect(selectListWrapper.find('.selectList').children().length).toEqual(10);
+      expect(selectListWrapper.find('.selectList').children().length).toEqual(4);
       expect(
         selectListWrapper
           .find('.selectList')
@@ -94,6 +99,7 @@ describe('Select Component', () => {
           .at(1)
           .prop('style'),
       ).toHaveProperty('cursor', 'not-allowed');
+      wrapper.unmount();
     });
   });
   describe('action', () => {
@@ -268,14 +274,25 @@ describe('Select Component', () => {
       Simulate.keyDown(input, { keyCode: 40 });
       Simulate.keyDown(input, { keyCode: 40 });
       Simulate.keyDown(input, { keyCode: 40 });
-      expect(document.querySelectorAll('li')[2].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 40 });
+      Simulate.keyDown(input, { keyCode: 40 });
+      expect(document.querySelectorAll('li')[3].style['background-color']).not.toEqual('');
       Simulate.keyDown(input, { keyCode: 38 });
-      expect(document.querySelectorAll('li')[1].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 38 });
+      Simulate.keyDown(input, { keyCode: 38 });
+      Simulate.keyDown(input, { keyCode: 38 });
+      expect(document.querySelectorAll('li')[0].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 32 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.keyDown(input, { keyCode: 27 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
+      Simulate.keyDown(input, { keyCode: 9 });
+      expect(document.querySelector('.selectListWrapper')).toEqual(null);
       document.body.removeChild(div);
     });
     it('change input value', () => {
       const wrapper = mount(
-        <Select isSearchable={true}>
+        <Select isSearchable={true} isClearable={true}>
           {optionList.map(item => {
             return (
               <div key={item.value} value={item.value}>
@@ -288,8 +305,11 @@ describe('Select Component', () => {
       const input = wrapper.find('input').at(0);
       input.simulate('change', {target: {value: 'r'}})
       const list = wrapper.find('.selectListWrapper').at(0);
+      expect(wrapper.find('.clearAllIcon').at(0).prop('style')).toHaveProperty('visibility', '');
       expect(list.exists()).toEqual(true);
       expect(wrapper.find('li').children().at(0).text()).toEqual('Red');
+      input.simulate('change', {target: {value: ''}})
+      expect(wrapper.find('.clearAllIcon').at(0).prop('style')).toHaveProperty('visibility', 'hidden');
     });
   });
 });
