@@ -72,6 +72,22 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
   ///////////////////
   // input keydown //
   ///////////////////
+  const handleDownAndUp = useCallback((e, keyCode) => {
+    e.preventDefault();
+    if (stateSelectList[0]) {
+      const judge = keyCode === 38 ? stateCurrentItemIndex[0] > 0 : stateCurrentItemIndex[0] < stateSelectList[0].length - 1;
+      if (judge) {
+        const listPosition = listRef.current.getBoundingClientRect();
+        const listWrapPosition = listWrapRef.current.getBoundingClientRect();
+        const difference = keyCode === 38 ? listPosition.top - listWrapPosition.top : listWrapPosition.bottom - listPosition.bottom;
+        stateCurrentItemIndex[1](stateCurrentItemIndex[0] + (keyCode === 38 ? -1 : 1));
+        if (difference <= listPosition.height) {
+          const scroll = listPosition.height - difference + 6;
+          listWrapRef.current.scrollBy && listWrapRef.current.scrollBy(0, keyCode === 38 ? -scroll : scroll);
+        }
+      }
+    }
+  });
   const handleKeyDown = useCallback(e => {
     if (stateIsShowList[0]) {
       switch (e.keyCode) {
@@ -94,32 +110,8 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
           stateInputValue[1]('');
           break;
         case 38:
-          e.preventDefault();
-          if (stateSelectList[0]) {
-            if (stateCurrentItemIndex[0] > 0) {
-              const listPosition = listRef.current.getBoundingClientRect();
-              const listWrapPosition = listWrapRef.current.getBoundingClientRect();
-              const difference = listPosition.top - listWrapPosition.top;
-              stateCurrentItemIndex[1](stateCurrentItemIndex[0] - 1);
-              if (difference <= listPosition.height) {
-                listWrapRef.current.scrollBy && listWrapRef.current.scrollBy(0, -(listPosition.height - difference + 6));
-              }
-            }
-          }
-          break;
         case 40:
-          e.preventDefault();
-          if (stateSelectList[0]) {
-            if (stateCurrentItemIndex[0] < stateSelectList[0].length - 1) {
-              const listPosition = listRef.current.getBoundingClientRect();
-              const listWrapPosition = listWrapRef.current.getBoundingClientRect();
-              const difference = listWrapPosition.bottom - listPosition.bottom;
-              stateCurrentItemIndex[1](stateCurrentItemIndex[0] + 1);
-              if (difference <= listPosition.height) {
-                listWrapRef.current.scrollBy && listWrapRef.current.scrollBy(0, listPosition.height - difference + 6);
-              }
-            }
-          }
+          handleDownAndUp(e, e.keyCode);
           break;
       }
     } else {

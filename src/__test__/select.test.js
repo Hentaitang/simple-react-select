@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React from 'react';
 import { mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Select from '../components/select/select.js';
@@ -19,7 +19,7 @@ describe('Select Component', () => {
   });
   describe('attributes', () => {
     it('accept placeholder && noOptionsText', () => {
-      const wrapper = mount(<Select placeholder="123" noOptionsText="456" />);
+      const wrapper = mount(<Select placeholder="123" noOptionsText="456" isSearchable={true}/>);
       const placeholder = wrapper.find('.placeholder').at(0);
       const input = wrapper.find('.inputWrapper').at(0);
       input.simulate('click');
@@ -29,6 +29,8 @@ describe('Select Component', () => {
       expect(noItem.text()).toEqual('456');
       wrapper.find('input').at(0).simulate('keyDown', { keyCode: 40 })
       wrapper.find('input').at(0).simulate('keyDown', { keyCode: 38 })
+      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 32 })
+      wrapper.find('input').at(0).simulate('change', {target: {value: 'r'}})
     });
     it('accept optionsIsLoading && loadingText & no loadingIcon', () => {
       const wrapper = mount(<Select optionsIsLoading={true} loadingText="loading" isLoadingIcon={false} />);
@@ -247,7 +249,7 @@ describe('Select Component', () => {
         <Select style={{ width: '300px', maxHeight: '100px' }}>
           {optionList.map(item => {
             return (
-              <div key={item.value} value={item.value}>
+              <div key={item.value} value={item.value} disabled={item.isDisabled}>
                 {item.value}
               </div>
             );
@@ -273,6 +275,9 @@ describe('Select Component', () => {
       expect(document.querySelectorAll('li')[0].style['background-color']).not.toEqual('');
       Simulate.keyDown(input, { keyCode: 40 });
       Simulate.keyDown(input, { keyCode: 40 });
+      expect(document.querySelectorAll('li')[1].style['background-color']).not.toEqual('');
+      Simulate.keyDown(input, { keyCode: 32 });
+      expect(document.querySelector('.selectListWrapper')).not.toEqual(null);
       Simulate.keyDown(input, { keyCode: 40 });
       Simulate.keyDown(input, { keyCode: 40 });
       Simulate.keyDown(input, { keyCode: 40 });
