@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect, useCallback, useRef } from 'react';
-import './select.scss';
+import STYLES from './select.scss';
 const component = memo(({ children, placeholder, select = '', onSelectChange, noOptionsText, optionsIsLoading, loadingText, isLoadingIcon = true, style, isSearchable, isClearable }) => {
   const stateSelect = useState(select);
   const stateInputValue = useState('');
@@ -125,9 +125,9 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
   let listHtml;
   if (optionsIsLoading) {
     listHtml = (
-      <li className={'loadingItem'}>
+      <li className={STYLES['loadingItem']}>
         {isLoadingIcon ? (
-          <div className={'loadingIcon'}>
+          <div className={STYLES['loadingIcon']}>
             <svg width="14px" height="14px" viewBox="0 0 1024 1024">
               <path
                 d="M511.882596 287.998081h-0.361244a31.998984 31.998984 0 0 1-31.659415-31.977309v-0.361244c0-0.104761 0.115598-11.722364 0.115598-63.658399V96.000564a31.998984 31.998984 0 1 1 64.001581 0V192.001129c0 52.586273-0.111986 63.88237-0.119211 64.337537a32.002596 32.002596 0 0 1-31.977309 31.659415zM511.998194 959.99842a31.998984 31.998984 0 0 1-31.998984-31.998984v-96.379871c0-51.610915-0.111986-63.174332-0.115598-63.286318s0-0.242033 0-0.361243a31.998984 31.998984 0 0 1 63.997968-0.314283c0 0.455167 0.11921 11.711527 0.11921 64.034093v96.307622a31.998984 31.998984 0 0 1-32.002596 31.998984zM330.899406 363.021212a31.897836 31.897836 0 0 1-22.866739-9.612699c-0.075861-0.075861-8.207461-8.370021-44.931515-45.094076L195.198137 240.429485a31.998984 31.998984 0 0 1 45.256635-45.253022L308.336112 263.057803c37.182834 37.182834 45.090463 45.253022 45.41197 45.578141A31.998984 31.998984 0 0 1 330.899406 363.021212zM806.137421 838.11473a31.901448 31.901448 0 0 1-22.628318-9.374279L715.624151 760.859111c-36.724054-36.724054-45.018214-44.859267-45.097687-44.93874a31.998984 31.998984 0 0 1 44.77618-45.729864c0.32512 0.317895 8.395308 8.229136 45.578142 45.411969l67.88134 67.88134a31.998984 31.998984 0 0 1-22.624705 54.630914zM224.000113 838.11473a31.901448 31.901448 0 0 0 22.628317-9.374279l67.88134-67.88134c36.724054-36.724054 45.021826-44.859267 45.097688-44.93874a31.998984 31.998984 0 0 0-44.776181-45.729864c-0.32512 0.317895-8.395308 8.229136-45.578142 45.411969l-67.88134 67.884953a31.998984 31.998984 0 0 0 22.628318 54.627301zM255.948523 544.058589h-0.361244c-0.104761 0-11.722364-0.115598-63.658399-0.115598H95.942765a31.998984 31.998984 0 1 1 0-64.00158h95.996952c52.586273 0 63.88237 0.111986 64.337538 0.11921a31.998984 31.998984 0 0 1 31.659414 31.97731v0.361244a32.002596 32.002596 0 0 1-31.988146 31.659414zM767.939492 544.058589a32.002596 32.002596 0 0 1-31.995372-31.666639v-0.361244a31.998984 31.998984 0 0 1 31.659415-31.970085c0.455167 0 11.754876-0.11921 64.34115-0.11921h96.000564a31.998984 31.998984 0 0 1 0 64.00158H831.944685c-51.936034 0-63.553638 0.111986-63.665624 0.115598h-0.335957zM692.999446 363.0176a31.998984 31.998984 0 0 1-22.863126-54.381656c0.317895-0.32512 8.229136-8.395308 45.41197-45.578141l67.88134-67.884953A31.998984 31.998984 0 1 1 828.693489 240.429485l-67.892177 67.88134c-31.020013 31.023625-41.644196 41.759794-44.241539 44.393262l-0.697201 0.722488a31.908673 31.908673 0 0 1-22.863126 9.591025z"
@@ -154,7 +154,7 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
             ref={ref => {
               stateCurrentItemIndex[0] === index ? (listRef.current = ref) : '';
             }}
-            className={'selectListItem'}
+            className={STYLES['selectListItem']}
             key={child.key}
             onClick={() => {
               if (child.props.disabled) return;
@@ -169,13 +169,13 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
         );
       });
     } else {
-      listHtml = <li className={'noItem'}>{noOptionsText ? noOptionsText : 'No options'}</li>;
+      listHtml = <li className={STYLES['noItem']}>{noOptionsText ? noOptionsText : 'No options'}</li>;
     }
   }
   return (
-    <div className={'selectWrapper'} ref={selectRef} style={{ width: style && style.width ? style.width : '' }}>
+    <div className={STYLES['selectWrapper']} ref={selectRef} style={{ width: style && style.width ? style.width : '' }}>
       <div
-        className={`inputWrapper ${stateIsfocus[0] ? 'focus' : ''}`}
+        className={`${STYLES['inputWrapper']} ${stateIsfocus[0] ? STYLES['focus'] : ''}`}
         style={{ paddingRight: stateInputValue[0] && isClearable ? '60px' : '' }}
         onClick={() => {
           stateIsShowList[1](true);
@@ -185,7 +185,7 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
       >
         <input
           readOnly={!isSearchable}
-          className={'myInput'}
+          className={STYLES['myInput']}
           type="text"
           value={stateInputValue[0]}
           ref={inputRef}
@@ -194,16 +194,16 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
           onFocus={() => stateIsfocus[1](true)}
           onKeyDown={e => handleKeyDown(e)}
         />
-        <div ref={fakeInputRef} className={'fakeInput'}>
+        <div ref={fakeInputRef} className={STYLES['fakeInput']}>
           {stateInputValue[0]}
         </div>
-        {!stateInputValue[0] && stateSelect[0] ? <div className={'selectValue'}>{stateSelect[0]}</div> : ''}
-        {!stateInputValue[0] && !stateSelect[0] ? <div className={'placeholder'}>{placeholder ? placeholder : 'Select...'}</div> : ''}
+        {!stateInputValue[0] && stateSelect[0] ? <div className={STYLES['selectValue']}>{stateSelect[0]}</div> : ''}
+        {!stateInputValue[0] && !stateSelect[0] ? <div className={STYLES['placeholder']}>{placeholder ? placeholder : 'Select...'}</div> : ''}
         {isClearable ? (
           <svg
             width="16px"
             height="16px"
-            className="clearAllIcon"
+            className={STYLES['clearAllIcon']}
             onClick={e => {
               e.stopPropagation();
               inputRef.current.focus();
@@ -228,7 +228,7 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
         <svg
           width="16px"
           height="16px"
-          className="dropdownIcon"
+          className={STYLES['dropdownIcon']}
           onClick={e => {
             e.stopPropagation();
             inputRef.current.focus();
@@ -244,8 +244,8 @@ const component = memo(({ children, placeholder, select = '', onSelectChange, no
         </svg>
       </div>
       {stateIsShowList[0] ? (
-        <div className={'selectListWrapper'} ref={listWrapRef} style={{ maxHeight: style && style.maxHeight ? style.maxHeight : '' }}>
-          <ul className={'selectList'}>{listHtml}</ul>
+        <div className={STYLES['selectListWrapper']} ref={listWrapRef} style={{ maxHeight: style && style.maxHeight ? style.maxHeight : '' }}>
+          <ul className={STYLES['selectList']}>{listHtml}</ul>
         </div>
       ) : (
         ''

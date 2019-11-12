@@ -32,7 +32,19 @@ const devConfig = {
       {
         test: /\.(sa|sc|c)ss$/,
         exclude: /(node_modules|bower_components)/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]___[hash:base64:5]',
+              },
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
     ],
   },

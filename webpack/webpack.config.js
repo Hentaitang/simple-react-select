@@ -31,7 +31,14 @@ const publicConfig = {
               hmr: process.env.NODE_ENV === 'development',
             },
           },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]___[hash:base64:5]',
+              },
+            },
+          },
           'postcss-loader',
           'sass-loader',
         ],
