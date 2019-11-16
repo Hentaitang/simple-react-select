@@ -15,7 +15,7 @@ ul {
     padding: 0 10px;
     padding-right: 34px;
     border-radius: 4px;
-    border: 1px solid #dcdfe6;
+    border: 1px solid;
     .myInput {
       cursor: pointer;
       width: 2px;
@@ -36,34 +36,39 @@ ul {
     }
     .selectValue,
     .placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      margin-left: 2px;
-      margin-right: 2px;
+      margin-left: 3px;
+      margin-right: 3px;
     }
     .placeholder {
       color: #c0c4cc;
-    }
-    &.focus {
-      border-color: #409eff;
     }
     .clearAllIcon,
     .dropdownIcon {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      fill: #c0c4cc;
       cursor: pointer;
+    }
+    .clearAllIcon {
+      right: 40px;
+      fill: #c0c4cc;
       &:hover {
         fill: rgb(153, 153, 153);
       }
     }
-    .clearAllIcon {
-      right: 40px;
-    }
     .dropdownIcon {
+      fill: #7f8fa4;
       right: 10px;
+      transition: all .3s;
+      &.active{
+        transform: translateY(-50%) rotate(180deg)
+      }
     }
   }
 

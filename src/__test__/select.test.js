@@ -17,9 +17,9 @@ describe('Select Component', () => {
   it('Select exist', () => {
     expect(Select).toBeTruthy();
   });
-  describe('attributes', () => {
+  describe('accept attributes', () => {
     it('accept placeholder && noOptionsText', () => {
-      const wrapper = mount(<Select placeholder="123" noOptionsText="456" isSearchable={true}/>);
+      const wrapper = mount(<Select placeholder="123" noOptionsText="456" isSearchable={true} />);
       const placeholder = wrapper.find('.placeholder').at(0);
       const input = wrapper.find('.inputWrapper').at(0);
       input.simulate('click');
@@ -27,10 +27,22 @@ describe('Select Component', () => {
       expect(noItem.exists()).toEqual(true);
       expect(placeholder.text()).toEqual('123');
       expect(noItem.text()).toEqual('456');
-      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 40 })
-      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 38 })
-      wrapper.find('input').at(0).simulate('keyDown', { keyCode: 32 })
-      wrapper.find('input').at(0).simulate('change', {target: {value: 'r'}})
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('keyDown', { keyCode: 40 });
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('keyDown', { keyCode: 38 });
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('keyDown', { keyCode: 32 });
+      wrapper
+        .find('input')
+        .at(0)
+        .simulate('change', { target: { value: 'r' } });
     });
     it('accept optionsIsLoading && loadingText & no loadingIcon', () => {
       const wrapper = mount(<Select optionsIsLoading={true} loadingText="loading" isLoadingIcon={false} />);
@@ -75,9 +87,9 @@ describe('Select Component', () => {
       ).toHaveProperty('visibility', 'hidden');
       expect(fakeFn).toHaveBeenCalled();
     });
-    it('accept children & style', () => {
+    it('accept children & selectCustomStyle & optionsCustomStyle', () => {
       const wrapper = mount(
-        <Select style={{ width: '500px', maxHeight: '200px' }}>
+        <Select selectCustomStyle={{ width: '500px' }} optionsCustomStyle={{ maxHeight: '200px' }}>
           {optionList.map(item => {
             return (
               <div key={item.value} value={item.value} disabled={item.isDisabled}>
@@ -308,13 +320,29 @@ describe('Select Component', () => {
         </Select>,
       );
       const input = wrapper.find('input').at(0);
-      input.simulate('change', {target: {value: 'r'}})
+      input.simulate('change', { target: { value: 'r' } });
       const list = wrapper.find('.selectListWrapper').at(0);
-      expect(wrapper.find('.clearAllIcon').at(0).prop('style')).toHaveProperty('visibility', '');
+      expect(
+        wrapper
+          .find('.clearAllIcon')
+          .at(0)
+          .prop('style'),
+      ).toHaveProperty('visibility', '');
       expect(list.exists()).toEqual(true);
-      expect(wrapper.find('li').children().at(0).text()).toEqual('Red');
-      input.simulate('change', {target: {value: ''}})
-      expect(wrapper.find('.clearAllIcon').at(0).prop('style')).toHaveProperty('visibility', 'hidden');
+      expect(
+        wrapper
+          .find('li')
+          .children()
+          .at(0)
+          .text(),
+      ).toEqual('Red');
+      input.simulate('change', { target: { value: '' } });
+      expect(
+        wrapper
+          .find('.clearAllIcon')
+          .at(0)
+          .prop('style'),
+      ).toHaveProperty('visibility', 'hidden');
     });
   });
 });

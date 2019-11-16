@@ -91,8 +91,9 @@ If you wanna explore more usages, here's a playground on [CodeSandBox.io](https:
   | select | control the current value | string | — |  — |
   | noOptionsText | Text to display when there are no options | string | — | — |
   | loadingText | Text to display when loading | string |  —   |—|
-  | isLoadingIcon | need loading icon or not | boolean |  —   |true|
-  | style | input width && optionList maxHeight | object |   {width: '300px' , maxHeight: '300px'}    |   {}    |
+  | isLoadingIcon | need loading icon or not when loading | boolean |  —   |true|
+  | selectCustomStyle | select custom style | object |   { width: '300px', selectColor: stateBgColor[0], selectBorderRadius: '0', selectBorderColor: 'black', activeBorderColor: 'red' }    |   {}    |
+  | optionsCustomStyle | options custom style | object |   { maxHeight: '200px', optionsBorderColor: 'black', optionsBorderRadius: '0', optionHoverBgColor: '#eee', optionActiveBgColor: 'pink', optionActiveColor: 'blue'}    |   {}    |
   | optionsIsLoading | loading control | boolean |  —   |   false    |
   | onSelectChange | subscribe to change events | function |  —   | (res) => {} |
   | isSearchable | allow the user to search for matching options | boolean |  —   |   false    |
