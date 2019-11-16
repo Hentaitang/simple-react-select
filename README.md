@@ -92,7 +92,7 @@ If you wanna explore more usages, here's a playground on [CodeSandBox.io](https:
   | noOptionsText | Text to display when there are no options | string | — | — |
   | loadingText | Text to display when loading | string |  —   |—|
   | isLoadingIcon | need loading icon or not when loading | boolean |  —   |true|
-  | selectCustomStyle | select custom style | object |   { width: '300px', selectColor: stateBgColor[0], selectBorderRadius: '0', selectBorderColor: 'black', activeBorderColor: 'red' }    |   {}    |
+  | selectCustomStyle | select custom style | object |   { width: '300px', selectColor: 'yellow', selectBorderRadius: '0', selectBorderColor: 'black', activeBorderColor: 'red' }    |   {}    |
   | optionsCustomStyle | options custom style | object |   { maxHeight: '200px', optionsBorderColor: 'black', optionsBorderRadius: '0', optionHoverBgColor: '#eee', optionActiveBgColor: 'pink', optionActiveColor: 'blue'}    |   {}    |
   | optionsIsLoading | loading control | boolean |  —   |   false    |
   | onSelectChange | subscribe to change events | function |  —   | (res) => {} |
